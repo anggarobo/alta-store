@@ -7,22 +7,24 @@ import (
 	"gorm.io/gorm"
 )
 
-// Config struct
-type Config struct {
-	DBUsername string
-	DBPassword string
-	DBPort     string
-	DBHost     string
-	DBName     string
-}
+// DB global decalaration
+var DB *gorm.DB
 
 //InitDB for connecting
-func InitDB() *gorm.DB {
+func InitDB() {
+	type Config struct {
+		DBUsername string
+		DBPassword string
+		DBPort     string
+		DBHost     string
+		DBName     string
+	}
+
 	config := Config{
 		DBUsername: "root",
 		DBPassword: "",
 		DBPort:     "3306",
-		DBHost:     "localhost",
+		DBHost:     "127.0.0.1",
 		DBName:     "alta_store",
 	}
 
@@ -40,5 +42,5 @@ func InitDB() *gorm.DB {
 		panic(err)
 	}
 
-	return db
+	DB = db
 }
