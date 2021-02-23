@@ -13,3 +13,10 @@ func GetCategories() (interface{}, error) {
 	}
 	return categories, nil
 }
+
+func CreateCategory(category *models.Category) (interface{}, error) {
+	if err := config.DB.Save(category).Error; err != nil {
+		return nil, err
+	}
+	return category, nil
+}
