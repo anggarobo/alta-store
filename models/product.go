@@ -1,22 +1,14 @@
 package models
 
 import (
-	"time"
+	"gorm.io/gorm"
 )
 
-// Product Model
-type Product struct {
-	ID          int
-	Name        string
-	Stock       int
-	Price       int
-	Description string
-	Category    Category
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
-}
-
-type Category struct {
-	ID   int
-	Name string
+type Products struct {
+	gorm.Model
+	Category_id int    `json: "category_id" form:"category_id"`
+	Name        string `json: "name" form:"name"`
+	Stock       int    `json: "stock" form:"stock"`
+	Price       int    `json: "price" form:"price"`
+	Description string `json: "description" form:"description"`
 }
