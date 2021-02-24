@@ -12,6 +12,7 @@ func New() *echo.Echo {
 	e := echo.New()
 
 	e.POST("/login", controller.LoginUsersController)
+	e.POST("/users", controller.CreateUsersController)
 
 	jwt := e.Group("/jwt")
 	jwt.Use(middleware.JWT([]byte(constraints.SECRET_JWT)))
