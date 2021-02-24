@@ -8,8 +8,8 @@ import (
 func GetCategories() (interface{}, error) {
 	var categories []models.Category
 
-	if e := config.DB.Find(&categories).Error; e != nil {
-		return nil, e
+	if err := config.DB.Find(&categories).Error; err != nil {
+		return nil, err
 	}
 	return categories, nil
 }

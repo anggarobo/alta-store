@@ -9,10 +9,10 @@ import (
 )
 
 func GetCategoriesController(c echo.Context) error {
-	categories, e := database.GetCategories()
+	categories, err := database.GetCategories()
 
-	if e != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, e.Error())
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"status":     "success",
@@ -23,10 +23,10 @@ func GetCategoriesController(c echo.Context) error {
 func CreateCategoryController(c echo.Context) error {
 	category := models.Category{}
 	c.Bind(&category)
-	categories, e := database.CreateCategory(&category)
+	categories, err := database.CreateCategory(&category)
 
-	if e != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, e.Error())
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
 	return c.JSON(http.StatusOK, map[string]interface{}{
