@@ -2,23 +2,15 @@ package controller
 
 import (
 	"alta-store/lib/database"
+	"alta-store/middlewares"
 	"alta-store/models"
 	"net/http"
-	"strconv"
 
 	"github.com/labstack/echo"
 )
 
 func GetCartController(c echo.Context) error {
-	req := c.Request().Header
-	userID, e := strconv.Atoi(req.Get("userid"))
-	if e != nil {
-		return c.JSON(http.StatusBadRequest, map[string]interface{}{
-			"status":  "failed",
-			"message": "Not found User ID on Header",
-		})
-	}
-
+	userID := middlewares.ExtractTokenUserId(c)
 	carts, e := database.GetCarts(userID)
 	if e != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, e.Error())
@@ -31,15 +23,7 @@ func GetCartController(c echo.Context) error {
 
 func AddToCartController(c echo.Context) error {
 
-	req := c.Request().Header
-	userID, e := strconv.Atoi(req.Get("userid"))
-	if e != nil {
-		return c.JSON(http.StatusBadRequest, map[string]interface{}{
-			"status":  "failed",
-			"message": "User ID not found in Header",
-		})
-	}
-
+	userID := middlewares.ExtractTokenUserId(c)
 	cartID, e := database.GetCartId(userID)
 	if e != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, e.Error())
@@ -79,14 +63,6 @@ func AddToCartController(c echo.Context) error {
 }
 
 func DeleteCartOnController(c echo.Context) error {
-	req := c.Request().Header
-	userID, e := strconv.Atoi(req.Get("userid"))
-	if e != nil {
-		return c.JSON(http.StatusBadRequest, map[string]interface{}{
-			"status":  "Failed",
-			"message": "User ID not found in Header",
-		})
-	}
 
 	cartDetailID := c.QueryParam("product")
 	if cartDetailID == "" {
@@ -114,8 +90,7 @@ func DeleteCartOnController(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, map[string]interface{}{
-		"status":  "Success",
-		"ID":      userID,
-		"message": result,
+		"status":     "Success",
+		"deleted id": result,
 	})
 }
