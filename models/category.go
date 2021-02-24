@@ -4,7 +4,16 @@ import (
 	"gorm.io/gorm"
 )
 
-type Categories struct {
+// Category model
+type Category struct {
 	gorm.Model
-	Name string
+	Name string `gorm:"size:100" json: "name" form: "name"`
 }
+
+// func (Category *Category) TableName() string {
+// 	return "categories"
+// }
+
+// func (Category *Category) toString() string {
+// 	return fmt.Sprintf("id: %d\nname: %s", Category.ID, Category.Name)
+// }
