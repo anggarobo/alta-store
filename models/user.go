@@ -1,20 +1,16 @@
 package models
 
 import (
-	"time"
-
 	"gorm.io/gorm"
 )
 
 type Users struct {
 	gorm.Model
-	fullName   string
-	email      string
-	password   string
-	address    string
-	phone      string
-	role       string
-	token      string
-	created_at time.Time
-	updated_at time.Time
+	Full_name string `gorm:"size:50" json: "full_name" form:"full_name"`
+	Email     string `json: "email" form:"email"`
+	Password  string `json: "password" form:"password"`
+	Address   string `json: "address" form:"address"`
+	Phone     string `json: "phone" form:"phone"`
+	Role      string `json: "role" form:"role"`
+	Token     string `json: "token" form:"token"`
 }
