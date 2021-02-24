@@ -1,6 +1,10 @@
 package models
 
-// Category model
-type Category struct {
-	name string
+import (
+	"gorm.io/gorm"
+)
+
+type Categories struct {
+	gorm.Model
+	Name string
 }
