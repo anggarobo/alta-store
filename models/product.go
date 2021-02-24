@@ -1,13 +1,22 @@
 package models
 
-import "time"
+import (
+	"time"
+)
 
 // Product Model
 type Product struct {
-	name        string
-	stock       int
-	price       int
-	description string
-	createdAt   time.Time
-	updatedAt   time.Time
+	ID          int
+	Name        string
+	Stock       int
+	Price       int
+	Description string
+	Category    Category
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
+}
+
+type Category struct {
+	ID   int
+	Name string
 }
