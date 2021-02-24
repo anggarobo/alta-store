@@ -4,11 +4,12 @@ import (
 	"gorm.io/gorm"
 )
 
-type Products struct {
+// Product Model
+type Product struct {
 	gorm.Model
-	Category_id int    `json: "category_id" form:"category_id"`
-	Name        string `json: "name" form:"name"`
-	Stock       int    `json: "stock" form:"stock"`
-	Price       int    `json: "price" form:"price"`
-	Description string `json: "description" form:"description"`
+	Name        string `gorm:"size:100" json: "name" form: "name"`
+	Stock       int    `json: "email" form: "email"`
+	Price       int    `json: "price" form: "price"`
+	Description string `json: "description" form: "description"`
+	CategoryID  uint   `json: "category_id" form: "category_id"`
 }
