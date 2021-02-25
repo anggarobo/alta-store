@@ -7,18 +7,26 @@ import (
 
 func GetCarts(cartID int) (interface{}, error) {
 	var cartDetail []models.Cart_details
-	if e := config.DB.Where("cart_id = ?", cartID).Find(&cartDetail).Error; e != nil {
+	if e := config.DB.Where("cart_id = ? ", cartID).Find(&cartDetail).Error; e != nil {
 		return nil, e
 	}
 	return cartDetail, nil
 }
 
-func GetCartId(userID int) (uint, error) {
+func GetCartId(userID int) (int, error) {
 	var cart models.Carts
-	if e := config.DB.Where("user_id = ?", userID).Find(&cart).Error; e != nil {
+	if e := config.DB.Where("user_id = ? AND status = 0", userID).Find(&cart).Error; e != nil {
 		return 0, e
 	}
-	return cart.ID, nil
+
+	ID := int(cart.ID)
+	if ID == 0 {
+		cart.User_id = userID
+		if e := config.DB.Create(&cart).Error; e != nil {
+			return 0, e
+		}
+	}
+	return int(cart.ID), nil
 }
 
 func GetProductPrice(productID int) (int, error) {
@@ -57,4 +65,37 @@ func DeleteCart(cartDetailID string) (interface{}, error) {
 	}
 
 	return cartDetailID, nil
+}
+
+func GetActiveCart(userID int) (int, error) {
+	var cart models.Carts
+	err := config.DB.Where("user_id = ?", userID).Where("status", 0).Find(&cart).Error
+	if err != nil {
+		return 0, err
+	}
+
+	return int(cart.ID), nil
+}
+
+func GetDetailActiveCart(cartID int) (models.Carts, error) {
+	var cart models.Carts
+	if e := config.DB.Where("id = ? ", cartID).Find(&cart).Error; e != nil {
+		return cart, e
+	}
+	return cart, nil
+}
+
+func CloseCart(cartID int) (models.Carts, error) {
+	var cart models.Carts
+
+	if err := config.DB.Model(models.Carts{}).
+		Where("id = ?", cartID).
+		Updates(models.Carts{
+			Status: 1,
+		}).Error; err != nil {
+		return cart, err
+	}
+
+	return cart, nil
+
 }
