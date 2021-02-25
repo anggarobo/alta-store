@@ -4,11 +4,8 @@ import (
 	"alta-store/constraints"
 	"alta-store/controller"
 
-	"alta-store/controllers"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
-
-	"github.com/labstack/echo/v4"
 )
 
 func New() *echo.Echo {
@@ -24,10 +21,12 @@ func New() *echo.Echo {
 	jwt.POST("/carts", controller.AddToCartController)
 	jwt.DELETE("/carts", controller.DeleteCartOnController)
 
-	e.GET("/products", controllers.GetProductsController)
-	e.GET("/products", controllers.GetProductByCategoryController)
+	// e.GET("/products", controller.GetProductsController)
+	// e.GET("/products", controller.GetProductByCategoryController)
 
-	e.GET("/categories", controllers.GetCategoriesController)
+	// e.GET("/categories", controller.GetCategoriesController)
+
+	jwt.POST("/checkouts", controller.AddCheckoutController)
 
 	return e
 }
