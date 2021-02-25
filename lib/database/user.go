@@ -28,11 +28,12 @@ func LoginUsers(user *models.Users) (interface{}, error) {
 		user.Email, user.Password).First(user).Error; err != nil {
 		return nil, err
 	}
+	token, err := middlewares.CreateToken(int(user.ID))
 
-	token, err := middlewares.CreateToken(int(1))
 	if err != nil {
 		return nil, err
 	}
+
 	user.Token = token
 
 	if err := config.DB.Save(&user).Error; err != nil {

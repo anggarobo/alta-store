@@ -4,7 +4,8 @@ import (
 	"gorm.io/gorm"
 )
 
-type Categories struct {
+// Category model
+type Category struct {
 	gorm.Model
-	Name string
+	Name string `gorm:"size:100" json: "name" form: "name"`
 }
