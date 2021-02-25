@@ -8,10 +8,8 @@ import (
 	"gorm.io/gorm"
 )
 
-// DB global decalaration
 var DB *gorm.DB
 
-//InitDB for connecting
 func InitDB() {
 	type Config struct {
 		DBUsername string
@@ -51,6 +49,7 @@ func InitDB() {
 func InitMigrate() {
 	DB.AutoMigrate(&models.Carts{})
 	DB.AutoMigrate(&models.Cart_details{})
-	DB.AutoMigrate(&models.Products{})
+	DB.AutoMigrate(&models.Product{})
 	DB.AutoMigrate(&models.Users{})
+	DB.AutoMigrate(&models.Transactions{})
 }

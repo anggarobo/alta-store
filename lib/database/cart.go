@@ -22,7 +22,7 @@ func GetCartId(userID int) (uint, error) {
 }
 
 func GetProductPrice(productID int) (int, error) {
-	var product models.Products
+	var product models.Product
 	if e := config.DB.Where("ID = ?", productID).Find(&product).Error; e != nil {
 		return 0, e
 	}

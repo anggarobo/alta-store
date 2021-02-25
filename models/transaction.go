@@ -1,14 +1,14 @@
 package models
 
 import (
-	"time"
+	"gorm.io/gorm"
 )
 
-type Transaction struct {
-	Total_price        int                `json:"total_price"`
-	Transaction_code   string             `json:"transaction_code"`
-	Status             int                `json:"status"`
-	AccountNumberOwner AccountNumberOwner `json:"account_number_owner_id"`
-	Created_at         time.Time
-	Updated_at         time.Time
+type Transactions struct {
+	gorm.Model
+	Cart_id                 int
+	Account_number_owner_id int
+	Total_price             string
+	Transaction_code        string
+	Status                  string
 }
