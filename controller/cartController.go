@@ -11,7 +11,13 @@ import (
 
 func GetCartController(c echo.Context) error {
 	userID := middlewares.ExtractTokenUserId(c)
-	carts, e := database.GetCarts(userID)
+
+	cartID, e := database.GetCartId(userID)
+	if e != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, e.Error())
+	}
+
+	carts, e := database.GetCarts(cartID)
 	if e != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, e.Error())
 	}
@@ -47,6 +53,12 @@ func AddToCartController(c echo.Context) error {
 	productPrice, e := database.GetProductPrice(data.Product_id)
 	if e != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, e.Error())
+	}
+	if productPrice == 0 {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"status":  "failed",
+			"message": "Product ID not found",
+		})
 	}
 
 	data.Price = productPrice * data.Quantity
