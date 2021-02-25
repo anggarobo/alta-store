@@ -36,11 +36,11 @@ ALTA Store is a retail store that sells various kinds of offline products.
 ```
 6. ERD
 
-![ERD ALTA-Store](https://raw.githubusercontent.com/mininutes/alta-store/products/img/erd.jpg)
+   ![ERD ALTA-Store](https://raw.githubusercontent.com/mininutes/alta-store/products/img/erd.jpg)
 
 7. Github Workflow
 
-![Github Workflow](https://raw.githubusercontent.com/mininutes/alta-store/products/img/git_workflow.jpg)
+   ![Github Workflow](https://raw.githubusercontent.com/mininutes/alta-store/products/img/git_workflow.jpg)
 
 > Note: `Make sure that you've already setup your computer with Go.`
 ## License
