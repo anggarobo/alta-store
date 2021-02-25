@@ -41,6 +41,7 @@ func LoginUsersController(c echo.Context) error {
 	if e != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, e.Error())
 	}
+
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"status": "success login",
 		"users":  users,

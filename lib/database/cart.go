@@ -66,3 +66,36 @@ func DeleteCart(cartDetailID string) (interface{}, error) {
 
 	return cartDetailID, nil
 }
+
+func GetActiveCart(userID int) (int, error) {
+	var cart models.Carts
+	err := config.DB.Where("user_id = ?", userID).Where("status", 0).Find(&cart).Error
+	if err != nil {
+		return 0, err
+	}
+
+	return int(cart.ID), nil
+}
+
+func GetDetailActiveCart(cartID int) (models.Carts, error) {
+	var cart models.Carts
+	if e := config.DB.Where("id = ? ", cartID).Find(&cart).Error; e != nil {
+		return cart, e
+	}
+	return cart, nil
+}
+
+func CloseCart(cartID int) (models.Carts, error) {
+	var cart models.Carts
+
+	if err := config.DB.Model(models.Carts{}).
+		Where("id = ?", cartID).
+		Updates(models.Carts{
+			Status: 1,
+		}).Error; err != nil {
+		return cart, err
+	}
+
+	return cart, nil
+
+}

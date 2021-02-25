@@ -27,6 +27,7 @@ func New() *echo.Echo {
 	// e.GET("/categories", controller.GetCategoriesController)
 
 	jwt.POST("/checkouts", controller.AddCheckoutController)
+	jwt.PUT("/payments/:transactionID", controller.ProcessPayment)
 
 	return e
 }
