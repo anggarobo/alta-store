@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"regexp"
 	"strconv"
+	"time"
 
 	"github.com/labstack/echo"
 )
@@ -21,6 +22,7 @@ const transactionCodeNoFound string = "Transaction Code is not found"
 const nominalNotMatch string = "Nominal is not match the bill"
 const paymentFailed string = "Fail to process your payment"
 const paymentSuccess string = "Process your payment successfully"
+const completeLeftCheckout string = "Cannot create checkout, you still have any active checkout"
 
 func AddCheckoutController(c echo.Context) error {
 
@@ -37,7 +39,8 @@ func AddCheckoutController(c echo.Context) error {
 	carts, e := database.GetDetailActiveCart(activeCart)
 
 	reg, _ := regexp.Compile("[^0-9]+")
-	time := carts.CreatedAt.String()
+	currentTime := time.Now()
+	time := currentTime.String()
 	uniqueCode := time[:19]
 	uniqueCode = reg.ReplaceAllString(uniqueCode, "")
 
@@ -49,7 +52,17 @@ func AddCheckoutController(c echo.Context) error {
 		})
 	}
 
+	activeCheckout, e := database.SearchActiveCheckout(userID)
+
+	if activeCheckout.ID != 0 {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"status":  errorMessage,
+			"message": completeLeftCheckout,
+		})
+	}
+
 	data := models.Transactions{
+		User_id:                   userID,
 		Cart_id:                   carts.ID,
 		Total_price:               carts.Total_price,
 		Transaction_code:          uniqueCode,

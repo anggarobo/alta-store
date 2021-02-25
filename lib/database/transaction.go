@@ -32,6 +32,16 @@ func GetCodeTransaction(transactionID int) (models.Transactions, error) {
 	return transaction, nil
 }
 
+func SearchActiveCheckout(userID int) (models.Transactions, error) {
+	var transaction models.Transactions
+	err := config.DB.Where("user_id = ?", userID).Where("status", 0).Find(&transaction).Error
+	if err != nil {
+		return transaction, err
+	}
+
+	return transaction, nil
+}
+
 func CreatePayments(transactionID int, transactions models.Transactions) (models.Transactions, error) {
 	var transaction models.Transactions
 
