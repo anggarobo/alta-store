@@ -30,7 +30,7 @@ func GetCartId(userID int) (int, error) {
 }
 
 func GetProductPrice(productID int, quantity int) (int, error) {
-	var product models.Products
+	var product models.Product
 	if e := config.DB.Where("ID = ?", productID).Find(&product).Error; e != nil {
 		return 0, e
 	}
@@ -78,7 +78,7 @@ func DeleteCart(cartDetailID string) (interface{}, error) {
 		return nil, e
 	}
 
-	var product models.Products
+	var product models.Product
 	if e := config.DB.Where("ID = ?", cartDetail.Product_id).Find(&product).Error; e != nil {
 		return nil, e
 	}
