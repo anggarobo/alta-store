@@ -6,8 +6,6 @@ import (
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
-
-	"github.com/labstack/echo/v4"
 )
 
 func New() *echo.Echo {
@@ -23,7 +21,7 @@ func New() *echo.Echo {
 	jwt.DELETE("/carts", controller.DeleteCartOnController)
 
 	e.GET("/products", controller.GetProductsController)
-	e.GET("/products", controller.GetProductByCategoryController)
+	e.GET("/product", controller.GetProductByCategoryController)
 
 	e.GET("/categories", controller.GetCategoriesController)
 
