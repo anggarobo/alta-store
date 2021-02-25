@@ -50,14 +50,14 @@ func AddToCartController(c echo.Context) error {
 		})
 	}
 
-	productPrice, e := database.GetProductPrice(data.Product_id)
+	productPrice, e := database.GetProductPrice(data.Product_id, data.Quantity)
 	if e != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, e.Error())
 	}
 	if productPrice == 0 {
 		return c.JSON(http.StatusBadRequest, map[string]interface{}{
 			"status":  "failed",
-			"message": "Product ID not found",
+			"message": "Product ID not found or Stock not enough",
 		})
 	}
 

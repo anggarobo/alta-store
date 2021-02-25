@@ -2,6 +2,7 @@ package middlewares
 
 import (
 	"alta-store/constraints"
+	"fmt"
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
@@ -18,6 +19,7 @@ func CreateToken(userId int) (string, error) {
 }
 
 func ExtractTokenUserId(e echo.Context) int {
+	fmt.Println(e.Get("user"))
 	user := e.Get("user").(*jwt.Token)
 	if user.Valid {
 		claims := user.Claims.(jwt.MapClaims)

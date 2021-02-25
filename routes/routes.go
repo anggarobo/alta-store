@@ -10,6 +10,7 @@ import (
 
 func New() *echo.Echo {
 	e := echo.New()
+	e.Pre(middleware.RemoveTrailingSlash())
 
 	e.POST("/login", controller.LoginUsersController)
 
