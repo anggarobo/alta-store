@@ -29,11 +29,21 @@ func GetCartId(userID int) (int, error) {
 	return int(cart.ID), nil
 }
 
-func GetProductPrice(productID int) (int, error) {
+func GetProductPrice(productID int, quantity int) (int, error) {
 	var product models.Product
 	if e := config.DB.Where("ID = ?", productID).Find(&product).Error; e != nil {
 		return 0, e
 	}
+
+	if product.Stock < quantity {
+		return 0, nil
+	}
+
+	product.Stock = product.Stock - quantity
+	if e := config.DB.Save(product).Error; e != nil {
+		return 0, e
+	}
+
 	return product.Price, nil
 }
 
@@ -60,7 +70,21 @@ func GetCartDetailID(cartDetailID string) (bool, error) {
 
 func DeleteCart(cartDetailID string) (interface{}, error) {
 	var cartDetail models.Cart_details
+	if e := config.DB.Where("ID = ?", cartDetailID).Find(&cartDetail).Error; e != nil {
+		return nil, e
+	}
+
 	if e := config.DB.Delete(&cartDetail, cartDetailID).Error; e != nil {
+		return nil, e
+	}
+
+	var product models.Product
+	if e := config.DB.Where("ID = ?", cartDetail.Product_id).Find(&product).Error; e != nil {
+		return nil, e
+	}
+
+	product.Stock = product.Stock + cartDetail.Quantity
+	if e := config.DB.Save(product).Error; e != nil {
 		return nil, e
 	}
 

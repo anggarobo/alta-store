@@ -10,6 +10,7 @@ import (
 
 func New() *echo.Echo {
 	e := echo.New()
+	e.Pre(middleware.RemoveTrailingSlash())
 
 	e.POST("/login", controller.LoginUsersController)
 	e.POST("/users", controller.CreateUsersController)
@@ -21,13 +22,10 @@ func New() *echo.Echo {
 	jwt.POST("/carts", controller.AddToCartController)
 	jwt.DELETE("/carts", controller.DeleteCartOnController)
 
-	// e.GET("/products", controller.GetProductsController)
-	// e.GET("/products", controller.GetProductByCategoryController)
+	e.GET("/products", controller.GetProductsController)
+	e.GET("/product", controller.GetProductByCategoryController)
 
-	// e.GET("/categories", controller.GetCategoriesController)
-
-	jwt.POST("/checkouts", controller.AddCheckoutController)
-	jwt.PUT("/payments/:transactionID", controller.ProcessPayment)
+	e.GET("/categories", controller.GetCategoriesController)
 
 	return e
 }

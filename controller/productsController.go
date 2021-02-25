@@ -5,7 +5,7 @@ import (
 	"alta-store/models"
 	"net/http"
 
-	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo"
 )
 
 func GetProductsController(c echo.Context) error {
@@ -21,9 +21,16 @@ func GetProductsController(c echo.Context) error {
 	})
 }
 
-func GetCategoryIDProductsController(c echo.Context) error {
-	catID := c.Param("category_id")
-	products, err := database.GetCategoryID(catID)
+func GetProductByCategoryController(c echo.Context) error {
+	category_id := c.QueryParam("category_id")
+
+	if category_id == "" {
+		return echo.NewHTTPError(http.StatusBadRequest, map[string]interface{}{
+			"message": "category id can't be empty",
+		})
+	}
+
+	product, err := database.GetProductByCategory(category_id)
 
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
@@ -31,38 +38,7 @@ func GetCategoryIDProductsController(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"status":   "success",
-		"products": products,
-	})
-}
-
-func GetProductByCategoryController(c echo.Context) error {
-	categoryID := c.QueryParam("category")
-	if categoryID == "" {
-		return c.JSON(http.StatusBadRequest, map[string]interface{}{
-			"status": "Failed",
-		})
-	}
-
-	categoryIDExist, err := database.GetCategoryID(categoryID)
-
-	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
-	}
-
-	if categoryIDExist != nil {
-		return c.JSON(http.StatusBadRequest, map[string]interface{}{
-			"status": "Failed",
-		})
-	}
-
-	category, e := database.GetProductByCategory(categoryID)
-	if e != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, e.Error())
-	}
-
-	return c.JSON(http.StatusOK, map[string]interface{}{
-		"status": "success",
-		"users":  category,
+		"products": product,
 	})
 }
 

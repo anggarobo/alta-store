@@ -4,8 +4,9 @@ import (
 	"alta-store/lib/database"
 	"alta-store/models"
 	"net/http"
+	"strconv"
 
-	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo"
 )
 
 func GetCategoriesController(c echo.Context) error {
@@ -17,6 +18,24 @@ func GetCategoriesController(c echo.Context) error {
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"status":     "success",
 		"categories": categories,
+	})
+}
+
+func GetCategoryController(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
+	category, err := database.GetCategory(id)
+
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"status":   "success",
+		"products": category,
 	})
 }
 
