@@ -26,7 +26,7 @@ func InitDB() {
 		DBPassword: "",
 		DBPort:     "3306",
 		DBHost:     "127.0.0.1",
-		DBName:     "alta_store",
+		DBName:     "altastore",
 	}
 
 	connection := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
