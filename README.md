@@ -34,4 +34,5 @@ ALTA Store is a retail store that sells various kinds of offline products.
 > Note: `Make sure that you've already setup your computer with Go.`
 ## License
 Alterra Academy
+
 **Enjoy the codes**
