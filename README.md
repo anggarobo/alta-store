@@ -32,15 +32,15 @@ ALTA Store is a retail store that sells various kinds of offline products.
 ```
 3. Start MySql Server
 
-5. Run main.go:
+4. Run main.go:
 ```	
  go run main.go
 ```
-6. ERD
+5. ERD
 
  ![ERD ALTA-Store](https://raw.githubusercontent.com/mininutes/alta-store/products/img/erd.jpg)
 
-7. Github Workflow
+6. Github Workflow
 
  ![Github Workflow](https://raw.githubusercontent.com/mininutes/alta-store/products/img/git_workflow.jpg)
 
