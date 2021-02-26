@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 const errorMessage string = "Error"
@@ -24,6 +24,14 @@ const paymentFailed string = "Fail to process your payment"
 const paymentSuccess string = "Process your payment successfully"
 const completeLeftCheckout string = "Cannot create checkout, you still have any active checkout"
 
+// AddCheckoutController godoc
+// @Summary Get details of all checkout
+// @Description Get details of all checkout
+// @Tags checkout
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} map[string]interface{}
+// @Router /checkouts [POST]
 func AddCheckoutController(c echo.Context) error {
 
 	userID := middlewares.ExtractTokenUserId(c)

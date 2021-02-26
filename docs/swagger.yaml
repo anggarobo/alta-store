@@ -1,0 +1,20 @@
+info:
+  contact: {}
+paths:
+  /checkouts:
+    post:
+      consumes:
+      - application/json
+      description: Get details of all checkout
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get details of all checkout
+      tags:
+      - checkout
+swagger: "2.0"

@@ -5,7 +5,7 @@ import (
 	"alta-store/models"
 	"net/http"
 
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 func GetProductsController(c echo.Context) error {
